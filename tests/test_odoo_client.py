@@ -52,3 +52,18 @@ def test_read_methods_delegate_to_execute_kw(monkeypatch):
     assert seen[2] == ("crm.lead", "fields_get", [], {"attributes": ["string", "type", "required", "selection", "relation"]})
     assert seen[3] == ("crm.lead", "search_count", [[]], None)
     assert seen[4] == ("crm.lead", "read_group", [[], ["expected_revenue:sum"], ["stage_id"]], None)
+
+
+def test_write_methods_delegate(monkeypatch):
+    client = make_client()
+    seen = []
+    monkeypatch.setattr(client, "execute_kw",
+                        lambda m, meth, a, k=None: seen.append((m, meth, a)) or 99)
+
+    client.create("crm.lead", {"name": "ACME"})
+    client.write("crm.lead", [5], {"name": "ACME2"})
+    client.unlink("crm.lead", [5])
+
+    assert seen[0] == ("crm.lead", "create", [{"name": "ACME"}])
+    assert seen[1] == ("crm.lead", "write", [[5], {"name": "ACME2"}])
+    assert seen[2] == ("crm.lead", "unlink", [[5]])

@@ -80,3 +80,12 @@ class OdooClient:
 
     def read_group(self, model, domain, fields, groupby):
         return self.execute_kw(model, "read_group", [domain or [], fields, groupby])
+
+    def create(self, model, values):
+        return self.execute_kw(model, "create", [values])
+
+    def write(self, model, ids, values):
+        return self.execute_kw(model, "write", [list(ids), values])
+
+    def unlink(self, model, ids):
+        return self.execute_kw(model, "unlink", [list(ids)])
