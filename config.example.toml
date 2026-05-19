@@ -1,0 +1,27 @@
+# Listes blanches et plafonds — copier en config.toml.
+
+[models]
+allowed = [
+  "crm.lead", "crm.stage", "crm.team",
+  "res.partner",
+  "sale.order", "sale.order.line",
+  "account.move", "account.move.line",
+  "purchase.order", "purchase.order.line",
+  "stock.picking",
+  "product.product", "product.template",
+  "mailing.mailing",
+  "ir.attachment",
+]
+
+[actions]
+"sale.order" = ["action_confirm", "action_quotation_send"]
+"account.move" = ["action_post"]
+"purchase.order" = ["button_confirm"]
+"stock.picking" = ["button_validate"]
+
+[guardrails]
+mass_op_cap = 50
+audit_log_path = "audit.log"
+
+[skills]
+dir = "skills_library"
