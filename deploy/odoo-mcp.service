@@ -1,0 +1,15 @@
+[Unit]
+Description=Serveur MCP Odoo (magin)
+After=network.target
+
+[Service]
+Type=simple
+User=odoo-mcp
+WorkingDirectory=/opt/odoo-mcp-server
+Environment=ODOO_MCP_PORT=8000
+ExecStart=/opt/odoo-mcp-server/.venv/bin/python -m odoo_mcp.server
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
