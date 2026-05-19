@@ -8,9 +8,13 @@ from odoo_mcp.tools import all_tools
 from odoo_mcp.tools import actions, read, write  # noqa: F401  (enregistre les outils)
 
 
-def is_authorized(authorization_header, expected_secret):
-    """Vrai si l'en-tête Authorization porte le bon secret partagé."""
-    return verify_secret(extract_bearer(authorization_header), expected_secret)
+def is_authorized(authorization_header, query_secret, expected_secret):
+    """Vrai si le bon secret partagé est fourni — soit dans l'en-tête
+    Authorization (Bearer), soit dans le paramètre d'URL `secret`.
+    Le paramètre d'URL permet de brancher le connecteur Claude, dont
+    l'écran de configuration n'offre pas de champ « jeton »."""
+    provided = extract_bearer(authorization_header) or query_secret
+    return verify_secret(provided, expected_secret)
 
 
 def build_app():
@@ -43,6 +47,7 @@ def build_app():
             if request.url.path == "/health":
                 return JSONResponse({"status": "ok"})
             if not is_authorized(request.headers.get("authorization"),
+                                 request.query_params.get("secret"),
                                  cfg.access_secret):
                 return JSONResponse({"error": "non autorisé"}, status_code=401)
             return await call_next(request)
