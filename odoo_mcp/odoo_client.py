@@ -89,3 +89,21 @@ class OdooClient:
 
     def unlink(self, model, ids):
         return self.execute_kw(model, "unlink", [list(ids)])
+
+    def call_action(self, model, ids, action):
+        return self.execute_kw(model, action, [list(ids)])
+
+    def post_message(self, model, record_id, body):
+        return self.execute_kw(model, "message_post", [[record_id]], {
+            "body": body,
+            "message_type": "comment",
+        })
+
+    def send_email(self, model, record_id, partner_ids, subject, body):
+        return self.execute_kw(model, "message_post", [[record_id]], {
+            "subject": subject,
+            "body": body,
+            "partner_ids": list(partner_ids),
+            "message_type": "comment",
+            "subtype_xmlid": "mail.mt_comment",
+        })
