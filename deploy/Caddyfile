@@ -1,0 +1,4 @@
+# Remplacer mcp.exemple.com par le sous-domaine réel.
+mcp.exemple.com {
+    reverse_proxy 127.0.0.1:8000
+}
