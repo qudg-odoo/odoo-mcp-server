@@ -56,3 +56,27 @@ class OdooClient:
             except (xmlrpc.client.ProtocolError, ConnectionError, OSError) as exc:
                 if attempts >= 2:
                     raise OdooError(f"Odoo injoignable : {exc}") from exc
+
+    def search(self, model, domain=None, fields=None, limit=None, offset=0, order=None):
+        kwargs = {"fields": fields or []}
+        if limit is not None:
+            kwargs["limit"] = limit
+        if offset:
+            kwargs["offset"] = offset
+        if order:
+            kwargs["order"] = order
+        return self.execute_kw(model, "search_read", [domain or []], kwargs)
+
+    def read(self, model, ids, fields=None):
+        return self.execute_kw(model, "read", [list(ids)], {"fields": fields or []})
+
+    def fields(self, model):
+        return self.execute_kw(model, "fields_get", [], {
+            "attributes": ["string", "type", "required", "selection", "relation"]
+        })
+
+    def count(self, model, domain=None):
+        return self.execute_kw(model, "search_count", [domain or []])
+
+    def read_group(self, model, domain, fields, groupby):
+        return self.execute_kw(model, "read_group", [domain or [], fields, groupby])
