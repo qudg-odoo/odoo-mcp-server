@@ -109,6 +109,7 @@ La couche générique est **complète dès la v1** : ce sont des primitives touj
 
 ### Groupe C — Actions Odoo (le gain de puissance)
 - **Exécuter une action de workflow Odoo** : confirmer un devis, valider une commande, comptabiliser une facture, créer une livraison, valider un bon de commande, envoyer un document par email…
+- **Composer et envoyer un email** depuis Odoo vers un contact / client : Claude rédige l'objet et le corps, le serveur l'envoie via la messagerie d'Odoo (l'email part de l'adresse du compte Odoo, est tracé dans le chatter du record concerné). Distinct du message chatter *interne* du groupe B, qui n'est pas un vrai email. Par sûreté — un email est visible du destinataire et difficile à rétracter — l'envoi se fait après **confirmation explicite**.
 - **Générer le PDF / rapport officiel** d'un record (devis, facture, bon de livraison).
 - Gouverné par une **liste blanche d'actions** en config : seules les actions métier autorisées sont exécutables — pas n'importe quelle méthode interne d'Odoo.
 
