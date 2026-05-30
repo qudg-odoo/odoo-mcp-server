@@ -75,7 +75,11 @@ Une fois un modèle ajouté à la liste, **tous les outils CRUD existants** (`cr
 
 **Total : ~80 nouveaux modèles autorisés** (~95 au total avec ceux déjà en place).
 
-Un modèle listé dont le **module Odoo n'est pas activé** reste simplement inutilisable au runtime (la liste blanche elle-même ne vérifie pas l'existence). Sans incidence.
+**Compatibilité Odoo SaaS (Odoo Online).** L'instance cible (`magin.odoo.com`) est hébergée par Odoo, pas sur Odoo.sh ni en on-premise. Le design n'introduit **aucune dépendance SaaS-incompatible** :
+- Aucun module Odoo custom n'est déployé (interdit sur SaaS).
+- Tous les modèles et actions listés sont des éléments **natifs d'Odoo Enterprise**, accessibles via XML-RPC standard.
+- Un modèle listé dont le module Odoo n'est pas activé sur le tenant SaaS reste simplement **inutilisable au runtime** (la liste blanche elle-même ne vérifie pas l'existence). Sans incidence : pas de crash, pas d'effet de bord.
+- À la validation post-déploiement (§6), on identifiera concrètement les modules absents sur cette instance et on ajustera la documentation si nécessaire — sans modifier l'architecture.
 
 ## 4. Catalogue des actions de workflow
 
