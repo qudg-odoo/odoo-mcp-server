@@ -52,3 +52,23 @@
 - Une fois validé sur la base de test, modifier `.env` :
   `ODOO_URL=https://magin.odoo.com` + la clé API de production.
 - `systemctl restart odoo-mcp`.
+
+## Mise à jour de la liste blanche (modèles ou actions)
+
+Le gabarit canonique est `config.example.toml` dans le repo — il est la **source de vérité** sur les modèles et actions accessibles via le MCP. La maintenance se fait en deux temps :
+
+1. **Sur le poste de développement** : éditer `config.example.toml`, vérifier que `python3 -m pytest` passe encore, commit, `git push`.
+2. **Sur le VPS** (terminal navigateur Hostinger ou SSH) :
+   ```
+   cd /opt/odoo-mcp-server
+   git pull
+   ./deploy/apply-config.sh
+   ```
+
+Le script `apply-config.sh` :
+- copie `config.example.toml` en `config.toml` actif ;
+- remet les bonnes permissions (`chown odoo-mcp:odoo-mcp`, `chmod 600`) ;
+- redémarre le service `odoo-mcp` ;
+- vérifie que le service est actif et que `/health` répond.
+
+Le script est **idempotent** — relançable sans dommage. Aucun secret n'est dans `config.toml` (les secrets sont dans `.env`).
