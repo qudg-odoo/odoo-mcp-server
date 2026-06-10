@@ -1,5 +1,5 @@
 from odoo_mcp.dedup import find_duplicates
-from tests.conftest import FakeOdoo
+from conftest import FakeOdoo
 
 
 def test_find_duplicates_by_email_and_phone():
