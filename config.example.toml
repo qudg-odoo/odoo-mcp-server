@@ -39,6 +39,10 @@ allowed = [
   "whatsapp.message", "whatsapp.template",
   # Website / Site web
   "website", "website.page", "website.menu",
+  # Redirections 301/404 du site (migration magincorp.be vers Cloudflare :
+  # les anciennes pages Odoo servies sur shop.magincorp.be doivent renvoyer
+  # vers le nouveau site, sinon elles lui font concurrence dans l'index Google)
+  "website.rewrite",
   "blog.blog", "blog.post", "blog.tag",
   # Spreadsheet / Dashboard & Documents
   "spreadsheet.dashboard", "spreadsheet.dashboard.group", "spreadsheet.template",
